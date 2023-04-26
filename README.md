@@ -15,9 +15,12 @@ React-dom.development.js:18687 The above error occurred in the <Cart> component:
 
 Consider adding an error boundary to your tree to customize error handling behavior.
 Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+
 logCapturedError @ react-dom.development.js:18687
 Show 1 more frame
 react-dom.development.js:12056 Uncaught TypeError: Cannot read properties of undefined (reading 'toFixed')
+
     at Cart (Cart.jsx:9:49)
     at renderWithHooks (react-dom.development.js:16305:18)
     at mountIndeterminateComponent (react-dom.development.js:20074:13)
