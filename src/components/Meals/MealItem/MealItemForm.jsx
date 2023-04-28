@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Input from "../../UI/Input";
 import classes from "./MealItemForm.module.css";
-// import { nanoid } from "nanoid"; // randomised string ID => alternative value for id
+import { nanoid } from "nanoid"; // randomised string ID => alternative value for id
 
 export default function MealItemForm(props) {
     const [amountIsValid, setAmountIsValid] = useState(true);
@@ -36,7 +36,7 @@ export default function MealItemForm(props) {
                 ref={amountInputRef}
                 label="Amount"
                 input={{
-                    id: "amount_" + props.id,
+                    id: nanoid(),
                     type: "number",
                     min: "1",
                     max: "5",

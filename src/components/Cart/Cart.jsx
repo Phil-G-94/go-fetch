@@ -9,6 +9,7 @@ export default function Cart(props) {
     const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`; // .toFixed(2). totalAmount currently returns undefined (?)
 
     const hasItems = cartCtx.items.length > 0;
+
     const cartItems = (
         <ul className={classes["cart-items"]}>
             {cartCtx.items.map((item) => (

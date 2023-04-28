@@ -12,9 +12,11 @@ const cartReducer = (state, action) => {
     if (action.type === "ADD_ITEM") {
         // returns new state snapshot in shallow copy of array
         const updatedItems = state.items.concat(action.item);
-        const updatedTotalAmount =
-            state.totalAmount + action.item.price * action.item.amount;
+
+        const updatedTotalAmount = (state.totalAmount +=
+            action.item.price * action.item.amount);
         return {
+            ...state,
             items: updatedItems,
             amount: updatedTotalAmount,
         };
