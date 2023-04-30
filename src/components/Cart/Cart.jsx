@@ -1,8 +1,9 @@
 import { useContext } from "react";
+import { nanoid } from "nanoid";
 import CartContext from "../../store/CartContext";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
-import { nanoid } from "nanoid";
+import CartItem from "./CartItem";
 
 export default function Cart(props) {
     const cartCtx = useContext(CartContext);
@@ -11,10 +12,25 @@ export default function Cart(props) {
 
     const hasItems = cartCtx.items.length > 0;
 
+    const cartItemRemoveHandler = (id) => {
+        cartCtx.removeItem(id);
+    };
+
+    const cartItemAddHandler = (item) => {
+        cartCtx.addItem({ ...item, amount: 1 }); // triggers corresponding handler in Provider component
+    };
+
     const cartItems = (
         <ul className={classes["cart-items"]}>
             {cartCtx.items.map((item) => (
-                <li key={nanoid()}>{item.name}</li> // key={item.id}
+                <CartItem
+                    key={nanoid()}
+                    name={item.name}
+                    amount={item.amount}
+                    price={item.price}
+                    onRemove={cartItemRemoveHandler.bind(null, item.id)} // using .bind() to preconfigure the arguments received by RemoveHandler & AddHandler functions
+                    onAdd={cartItemAddHandler.bind(null, item)}
+                />
             ))}
         </ul>
     );
