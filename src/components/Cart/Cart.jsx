@@ -2,6 +2,7 @@ import { useContext } from "react";
 import CartContext from "../../store/CartContext";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
+import { nanoid } from "nanoid";
 
 export default function Cart(props) {
     const cartCtx = useContext(CartContext);
@@ -13,7 +14,7 @@ export default function Cart(props) {
     const cartItems = (
         <ul className={classes["cart-items"]}>
             {cartCtx.items.map((item) => (
-                <li key={item.id}>{item.name}</li>
+                <li key={nanoid()}>{item.name}</li> // key={item.id}
             ))}
         </ul>
     );
