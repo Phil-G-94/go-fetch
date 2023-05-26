@@ -12,7 +12,7 @@ const cartReducer = (state, action) => {
     // ADD ITEM logic
     if (action.type === "ADD_ITEM") {
         const updatedTotalAmount = (state.totalAmount +=
-            (action.item.price * action.item.amount) / 2); // /* IMRPOVE */
+            (action.item.price * action.item.amount) / 2); // /* IMPROVE */
 
         // looks for index of item whose ID === the ID of the item that's been added.
         // returns true if there's a match, false otherwise
