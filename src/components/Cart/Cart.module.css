@@ -46,3 +46,9 @@
     background-color: #8a2b06;
     color: white;
 }
+
+.modal-content {
+    color: #8a2b06;
+    text-align: center;
+    font-weight: 700;
+}

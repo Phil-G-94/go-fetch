@@ -1,37 +1,67 @@
-import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 import classes from "./AvailableMeals.module.css";
-import { nanoid } from "nanoid";
 
-const DUMMY_MEALS = [
-    {
-        id: nanoid(),
-        name: "Sushi",
-        description: "Finest fish and veggies",
-        price: 22.99,
-    },
-    {
-        id: nanoid(),
-        name: "Schnitzel",
-        description: "A german specialty!",
-        price: 16.5,
-    },
-    {
-        id: nanoid(),
-        name: "Barbecue Burger",
-        description: "American, raw, meaty",
-        price: 12.99,
-    },
-    {
-        id: nanoid(),
-        name: "Green Bowl",
-        description: "Healthy...and green...",
-        price: 18.99,
-    },
-];
+import { useState, useCallback, useEffect } from "react";
 
 export default function AvailableMeals() {
-    const mealsList = DUMMY_MEALS.map((meal) => {
+    const [meals, setMeals] = useState([]);
+    const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState();
+
+    const fetchMealsHandler = useCallback(async () => {
+        try {
+            const response = await fetch(
+                "https://go-fetch-264c5-default-rtdb.europe-west1.firebasedatabase.app/meals.json"
+            );
+
+            if (!response.ok) {
+                throw new Error("Something went wrong...");
+            }
+
+            const data = await response.json();
+
+            const loadedMeals = [];
+
+            // because our meals data in firebase is an object, we can use for...in
+            // to iterate through and push individual meal objs into our loadedMeals array
+            for (const key in data) {
+                loadedMeals.push({
+                    id: key,
+                    name: data[key].name,
+                    description: data[key].description,
+                    price: data[key].price,
+                });
+            }
+
+            setMeals(loadedMeals);
+        } catch (error) {
+            setError(error.message);
+        }
+
+        setIsFetching(false);
+    }, []);
+
+    useEffect(() => {
+        fetchMealsHandler();
+    }, [fetchMealsHandler]);
+
+    if (isFetching) {
+        return (
+            <section>
+                <p className={classes.mealsLoading}>Loading...</p>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className={classes.mealsError}>
+                <p>{error}</p>
+            </section>
+        );
+    }
+
+    const mealsList = meals.map((meal) => {
         return (
             <MealItem
                 id={meal.id}
@@ -45,9 +75,7 @@ export default function AvailableMeals() {
 
     return (
         <section className={classes.meals}>
-            <Card>
-                <ul>{mealsList}</ul>
-            </Card>
+            {!isFetching && <ul>{mealsList}</ul>}
         </section>
     );
 }
